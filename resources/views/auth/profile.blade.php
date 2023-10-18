@@ -98,47 +98,80 @@
                     <div class="tab-pane fade" id="user-settings">
                         <div class="tile user-settings">
                             <h4 class="line-head">@lang('langs.password_update')</h4>
-                            <form action="{{route('change-password')}}" method="post">
+                            <form action="{{route('change-password')}}" id="password_form" method="post">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-8 mb-4">
-                                        <label>@lang('langs.password_old')</label>
-                                        <input class="form-control @error('current_password') is-invalid @enderror"
-                                             id="current_password"  name="current_password" type="password"
-                                               placeholder="Old Password">
+                                        <label>Old Password</label>
+
+                                        <div class="input-group mb-3">
+                                            <input class="form-control @error('current_password') is-invalid @enderror"
+                                                   id="current_password" name="current_password" type="password"
+                                                   placeholder="Old Password">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                            <span class="toggle-password"
+                                  onclick="togglePasswordVisibility('current_password')">
+    <i class="fa fa-eye-slash" aria-hidden="true"></i>
+</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                         @error('current_password')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                        <input type="checkbox" id="remember" onclick="oldPassword()" {{ old('remember') ? 'checked' : '' }}><i class="fa fa-eye-slash" aria-hidden="true"></i>
                                     </div>
+
                                     <div class="clearfix"></div>
                                     <div class="col-md-8 mb-4">
-                                        <label>@lang('langs.password_new')</label>
-                                        <input class="form-control @error('new_password') is-invalid @enderror"
-                                             id="new_password"  name="new_password" type="password"
-                                               placeholder="New Password">
+                                        <label>New Password</label>
+                                        <div class="input-group mb-3">
+                                            <input class="form-control @error('new_password') is-invalid @enderror"
+                                                   id="new_password" name="new_password" type="password"
+                                                   placeholder="New Password">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                            <span class="toggle-password2"
+                                  onclick="toggleNewPasswordVisibility('new_password')">
+    <i class="fa fa-eye-slash" aria-hidden="true"></i>
+</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                         @error('new_password')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                        <input type="checkbox" id="remember" onclick="newPassword()" {{ old('remember') ? 'checked' : '' }}><i class="fa fa-eye-slash" aria-hidden="true"></i>
                                     </div>
+
                                     <div class="clearfix"></div>
                                     <div class="col-md-8 mb-4">
-                                        <label>@lang('langs.password_confirm')</label>
-                                        <input class="form-control @error('conform_password') is-invalid @enderror"
-                                             id="confirm_passsword"  name="conform_password" type="password"
-                                               placeholder="Comfirm Password">
-                                        @error('conform_password')
+                                        <label>Confirm Password</label>
+                                        <div class="input-group mb-3">
+                                            <input class="form-control @error('conform_password') is-invalid @enderror"
+                                                   id="confirm_password" name="conform_password" type="password"
+                                                   placeholder="Comfirm Password">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                            <span class="conform-password"
+                                  onclick="toggleConformPasswordVisibility('confirm_password')">
+    <i class="fa fa-eye-slash" aria-hidden="true"></i>
+</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @error('confirm_password')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                        <input type="checkbox" id="remember" onclick="confirmPassword()" {{ old('remember') ? 'checked' : '' }}><i class="fa fa-eye-slash" aria-hidden="true"></i>
                                     </div>
+                                    <div class="clearfix"></div>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="row mb-10">
                                     <div class="col-md-12">
-                                        <button class="btn btn-primary" type="submit"><i
-                                                class="fa fa-fw fa-lg fa-check-circle"></i> @lang('langs.update')
+                                        <button
+                                            class="btn btn-sm btn-shadow btn-outline-info btn-hover-shine update-password"
+                                            type="submit"><i
+                                                class="fa fa-fw fa-lg fa-check-circle"></i> Update
                                         </button>
                                     </div>
                                 </div>
@@ -154,42 +187,51 @@
     @php
         $doc = request('document');
     @endphp
+    {{--  Password Hide/Show --}}
     <script>
-        function oldPassword() {
-            var x = document.getElementById("current_password");
-            var span = document.querySelector('.label-text');
-            if (x.type === "password") {
-                x.type = "text";
-                span.classList.add('check_color_name')
+        function togglePasswordVisibility(inputId) {
+            var passwordInput = document.getElementById(inputId);
+            var toggleIcon = document.querySelector('.toggle-password i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
             } else {
-                x.type = "password";
-                span.classList.remove('check_color_name')
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
             }
         }
     </script>
     <script>
-        function newPassword() {
-            var x = document.getElementById("new_password");
-            var span = document.querySelector('.label-text');
-            if (x.type === "password") {
-                x.type = "text";
-                span.classList.add('check_color_name')
+        function toggleNewPasswordVisibility(inputId) {
+            var passwordInput = document.getElementById(inputId);
+            var toggleIcon = document.querySelector('.toggle-password2 i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
             } else {
-                x.type = "password";
-                span.classList.remove('check_color_name')
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
             }
         }
     </script>
     <script>
-        function confirmPassword() {
-            var x = document.getElementById("confirm_passsword");
-            var span = document.querySelector('.label-text');
-            if (x.type === "password") {
-                x.type = "text";
-                span.classList.add('check_color_name')
+        function toggleConformPasswordVisibility(inputId) {
+            var passwordInput = document.getElementById(inputId);
+            var toggleIcon = document.querySelector('.conform-password i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
             } else {
-                x.type = "password";
-                span.classList.remove('check_color_name')
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
             }
         }
     </script>

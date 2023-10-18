@@ -27,6 +27,10 @@ Route::get('clear_cache', function () {
 
 
 });
+Route::get('/link_storage', function () {
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    return redirect()->back()->with("success","Storage Link SuccessFully!...");
+});
 
 Route::group(['middleware' => ['auth','role','check_lang','verified']], function ()
 {

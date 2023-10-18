@@ -1,6 +1,19 @@
 @extends('Admin.layouts.app')
 @section('content')
+    <style>
+        select option {
+            padding-left: 25px; /* Add space for the icon */
+            background-repeat: no-repeat;
+            background-position: left center;
+        }
 
+        .icon-user::before {
+            content: "\f007"; /* Font Awesome user icon */
+            font-family: 'Font Awesome';
+        }
+
+
+    </style>
     <main class="app-content">
         <div class="app-title">
             <div>
@@ -30,7 +43,9 @@
                                         <option value="">---Select User Name---</option>
                                         @foreach($users as $user)
                                             <option
-                                                value="{{$user->id}}" {{ old('user_id') == $user->id ? 'selected' : '' }}>{{$user->name}}</option>
+                                                value="{{$user->id}}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                                {{$user->name}}
+                                            </option>
                                         @endforeach
                                     @else
                                         <option value="{{$user->id}}">{{$user->name}}</option>

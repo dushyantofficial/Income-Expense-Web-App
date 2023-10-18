@@ -41,19 +41,39 @@
 
             <div class="form-group">
                 <label class="control-label">Email</label>
-
-                <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" value="{{old('email')}}" placeholder="Email" autofocus>
-                @error('email')
-                <span class="text-danger">{{ $message }}</span>
-                @enderror
+                <div class="input-group mb-3">
+                    <input type="email"
+                           name="email"
+                           value="{{ old('email') }}"
+                           placeholder="Enter Your Email"
+                           class="form-control @error('email') is-invalid @enderror">
+                    <div class="input-group-append">
+                        <div class="input-group-text"><span class="fa fa-envelope"></span></div>
+                    </div>
+                    @error('email')
+                    <span class="error invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
             <div class="form-group">
                 <label class="control-label">PASSWORD</label>
-                <input name="password"  type="password" class="form-control @error('password') is-invalid @enderror" id="oldPasswordInput"
-                       placeholder="Enter Password">
-                @error('password')
-                <span class="text-danger">{{ $message }}</span>
-                @enderror
+                <div class="input-group mb-3">
+                    <input name="password" type="password" class="form-control @error('password') is-invalid @enderror"
+                           id="password"
+                           placeholder="Enter Your Password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="toggle-password"
+                                  onclick="togglePasswordVisibility('password')">
+    <i class="fa fa-eye-slash" aria-hidden="true"></i>
+</span>
+                        </div>
+                    </div>
+                    @error('password')
+                    <span class="error invalid-feedback">{{ $message }}</span>
+                    @enderror
+
+                </div>
             </div>
             <div class="form-group">
                 <div class="utility">
@@ -115,18 +135,18 @@
 
 </script>
 <script>
-    function myFunction() {
-        var x = document.getElementById("oldPasswordInput");
-        var span = document.querySelector('.label-text');
-        var passwordText = document.getElementById("hide_show");
-        if (x.type === "password") {
-            x.type = "text";
-            span.classList.add('check_color_name')
-            passwordText.innerText = "Hide Password";
+    function togglePasswordVisibility(inputId) {
+        var passwordInput = document.getElementById(inputId);
+        var toggleIcon = document.querySelector('.toggle-password i');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
         } else {
-            x.type = "password";
-            span.classList.remove('check_color_name')
-            passwordText.innerText = "Show Password";
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
         }
     }
 </script>

@@ -172,7 +172,6 @@ class UserController extends Controller
     public function profile_update(Request $request)
     {
         $rules = User::$rules;
-        $rules['profile_pic'] = 'nullable';
         $rules['password'] = 'nullable';
         $request->validate($rules);
         $user = Auth::user();
@@ -180,6 +179,7 @@ class UserController extends Controller
             'email' => 'required|regex:/(.+)@(.+)\.(.+)/i|unique:users,email,' . $user->id,
         ]);
         $input = $request->all();
+
         if ($request->hasFile("profile_pic")) {
             $img = $request->file("profile_pic");
             if (Storage::exists('public/images' . $user->profile_pic)) {
